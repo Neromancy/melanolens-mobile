@@ -64,7 +64,7 @@ export default function SignInScreen() {
       <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }} className="px-6">
         <View className="items-center mb-8">
                   <Image
-                    source={require('../../assets/brand/logo-dark-full.png')}
+                    source={require('../../assets/brand/logo-light-full.png')}
                     style={{ width: 210, height: 30 }}
                     resizeMode="contain"
                   />
@@ -89,7 +89,7 @@ export default function SignInScreen() {
             <View className="flex-row items-center bg-slate-50 border border-slate-200 rounded-xl px-4 h-12">
               <TextInput
                 className="flex-1 text-sm text-slate-800"
-                placeholder="••••••••"
+                placeholder="Masukkan kata sandi"
                 secureTextEntry={!showPassword}
                 value={password}
                 onChangeText={setPassword}

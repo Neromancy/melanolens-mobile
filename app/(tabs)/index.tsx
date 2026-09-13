@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default function HomeScreen() {
   const { user } = useAuthStore();
+  const isAdmin = user?.role === 'admin';
   const router = useRouter();
 
   return (
@@ -39,39 +40,26 @@ export default function HomeScreen() {
       {/* Quick Actions */}
       <Text className="text-sm font-bold text-slate-800 mb-3">Akses Cepat</Text>
       <View className="flex-row gap-3 mb-6">
-        <TouchableOpacity
-          onPress={() => router.push('/(tabs)/scan')}
-          className="flex-1 bg-white p-4 rounded-2xl border border-slate-100 items-center"
-        >
-          <View className="w-12 h-12 rounded-xl bg-sky-50 items-center justify-center mb-2">
-            <Ionicons name="camera" size={24} color="#028cf3" />
-          </View>
-          <Text className="text-xs font-bold text-slate-800">Scan Baru</Text>
-          <Text className="text-[10px] text-slate-400 mt-0.5">Analisis Lesi</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => router.push('/(tabs)/history')}
-          className="flex-1 bg-white p-4 rounded-2xl border border-slate-100 items-center"
-        >
-          <View className="w-12 h-12 rounded-xl bg-emerald-50 items-center justify-center mb-2">
-            <Ionicons name="document-text" size={24} color="#10b981" />
-          </View>
-          <Text className="text-xs font-bold text-slate-800">Riwayat</Text>
-          <Text className="text-[10px] text-slate-400 mt-0.5">Rekam Medis</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => router.push('/(tabs)/profile')}
-          className="flex-1 bg-white p-4 rounded-2xl border border-slate-100 items-center"
-        >
-          <View className="w-12 h-12 rounded-xl bg-violet-50 items-center justify-center mb-2">
-            <Ionicons name="person-circle" size={24} color="#8b5cf6" />
-          </View>
-          <Text className="text-xs font-bold text-slate-800">Profil</Text>
-          <Text className="text-[10px] text-slate-400 mt-0.5">Data Pasien</Text>
-        </TouchableOpacity>
-      </View>
+              {isAdmin ? (
+                <>
+                  <QuickAction label="Dashboard" sub="Statistik" icon="bar-chart" color="#2a85ff" bg="bg-sky-50"
+                    onPress={() => router.push('/(tabs)/admin-dashboard')} />
+                  <QuickAction label="Berkas" sub="Rekam Medis" icon="file-tray" color="#10b981" bg="bg-emerald-50"
+                    onPress={() => router.push('/(tabs)/admin-berkas')} />
+                  <QuickAction label="Scan" sub="Analisis Lesi" icon="camera" color="#f59e0b" bg="bg-amber-50"
+                    onPress={() => router.push('/(tabs)/scan')} />
+                </>
+              ) : (
+                <>
+                  <QuickAction label="Scan Baru" sub="Analisis Lesi" icon="camera" color="#028cf3" bg="bg-sky-50"
+                    onPress={() => router.push('/(tabs)/scan')} />
+                  <QuickAction label="Riwayat" sub="Rekam Medis" icon="document-text" color="#10b981" bg="bg-emerald-50"
+                    onPress={() => router.push('/(tabs)/history')} />
+                  <QuickAction label="Profil" sub="Data Pasien" icon="person-circle" color="#8b5cf6" bg="bg-violet-50"
+                    onPress={() => router.push('/(tabs)/profile')} />
+                </>
+              )}
+            </View>
 
       {/* Technology Specifications */}
       <Text className="text-sm font-bold text-slate-800 mb-3">Teknologi MelanoLens</Text>
@@ -113,5 +101,23 @@ export default function HomeScreen() {
         </View>
       </View>
     </ScrollView>
+  );
+}
+
+function QuickAction({ label, sub, icon, color, bg, onPress }: {
+  label: string; sub: string; icon: any; color: string; bg: string;
+  onPress: () => void;
+}) {
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      className="flex-1 bg-white p-4 rounded-2xl border border-slate-100 items-center"
+    >
+      <View className={`w-12 h-12 rounded-xl items-center justify-center mb-2 ${bg}`}>
+        <Ionicons name={icon} size={24} color={color} />
+      </View>
+      <Text className="text-xs font-bold text-slate-800">{label}</Text>
+      <Text className="text-[10px] text-slate-400 mt-0.5">{sub}</Text>
+    </TouchableOpacity>
   );
 }

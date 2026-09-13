@@ -6,9 +6,12 @@ export default function TabsLayout() {
   const role = useAuthStore((s) => s.user?.role);
   const isAdmin = role === 'admin';
 
+  // Each tab is a DIRECT <Tabs.Screen> child. Do NOT wrap them in fragments
+  // (<>) — expo-router ignores any non-Screen child and would drop the tab.
+  // Icon names are verified Ionicons glyphs (bar-chart, file-tray, scan, home, time, person).
   return (
     <Tabs
-      initialRouteName={isAdmin ? 'admin-dashboard' : 'index'}
+      initialRouteName="index"
       screenOptions={{
         headerShown: true,
         headerTitleAlign: 'center',
@@ -25,85 +28,62 @@ export default function TabsLayout() {
         },
       }}
     >
-      {isAdmin ? (
-        <>
-          <Tabs.Screen
-            name="admin-dashboard"
-            options={{
-              title: 'Dashboard',
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="stats-chart" size={size} color={color} />
-              ),
-            }}
-          />
-          <Tabs.Screen
-            name="admin-berkas"
-            options={{
-              title: 'Berkas',
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="folder-open" size={size} color={color} />
-              ),
-            }}
-          />
-          <Tabs.Screen
-            name="scan"
-            options={{
-              title: 'Scan AI',
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="scan-circle" size={size + 3} color={color} />
-              ),
-            }}
-          />
-          <Tabs.Screen
-            name="profile"
-            options={{
-              title: 'Profil',
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="person" size={size} color={color} />
-              ),
-            }}
-          />
-        </>
-      ) : (
-        <>
-          <Tabs.Screen
-            name="index"
-            options={{
-              title: 'Beranda',
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="home" size={size} color={color} />
-              ),
-            }}
-          />
-          <Tabs.Screen
-            name="scan"
-            options={{
-              title: 'Scan AI',
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="scan-circle" size={size + 3} color={color} />
-              ),
-            }}
-          />
-          <Tabs.Screen
-            name="history"
-            options={{
-              title: 'Riwayat',
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="time" size={size} color={color} />
-              ),
-            }}
-          />
-          <Tabs.Screen
-                      name="profile"
-                      options={{
-                        title: 'Profil',
-                        tabBarIcon: ({ color, size }) => (
-                          <Ionicons name="person" size={size} color={color} />
-                        ),
-                      }}
-                    />
-        </>
+      {/* 1. Home (all users) */}
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: 'Home',
+          tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} />,
+        }}
+      />
+      {/* 2. Scan (all users) */}
+      <Tabs.Screen
+        name="scan"
+        options={{
+          title: 'Scan',
+          tabBarIcon: ({ color, size }) => <Ionicons name="scan" size={size} color={color} />,
+        }}
+      />
+      {/* 3-4. Admin: Dashboard + Berkas. Patient: own Riwayat. */}
+      {isAdmin && (
+        <Tabs.Screen
+          name="admin-dashboard"
+          options={{
+            title: 'Dashboard',
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="bar-chart" size={size} color={color} />
+            ),
+          }}
+        />
       )}
+      {isAdmin && (
+        <Tabs.Screen
+          name="admin-berkas"
+          options={{
+            title: 'Berkas',
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="file-tray" size={size} color={color} />
+            ),
+          }}
+        />
+      )}
+      {!isAdmin && (
+        <Tabs.Screen
+          name="history"
+          options={{
+            title: 'Riwayat',
+            tabBarIcon: ({ color, size }) => <Ionicons name="time" size={size} color={color} />,
+          }}
+        />
+      )}
+      {/* Profile (last / rightmost, all users) */}
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ color, size }) => <Ionicons name="person" size={size} color={color} />,
+        }}
+      />
     </Tabs>
   );
 }
