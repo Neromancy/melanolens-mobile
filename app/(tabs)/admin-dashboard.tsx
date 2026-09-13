@@ -54,7 +54,13 @@ const QUARTERS = ['1', '2', '3', '4'];
 
 export default function AdminDashboardScreen() {
   const token = useAuthStore((s) => s.token);
+  const userRole = useAuthStore((s) => s.user?.role);
+  const isAdmin = userRole === 'admin';
   const router = useRouter();
+  // Guard: only admins may render this screen. Non-admins bounce to Home.
+  useEffect(() => {
+    if (!isAdmin) router.replace('/(tabs)');
+  }, [isAdmin, router]);
   const [data, setData] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -76,8 +82,9 @@ export default function AdminDashboardScreen() {
   }, [token]);
 
   useEffect(() => {
-    fetchStats();
-  }, [fetchStats]);
+    if (isAdmin) fetchStats();
+    else setLoading(false);
+  }, [isAdmin, fetchStats]);
 
   const s = data?.summary || {};
   const charts = data?.charts || {};
@@ -86,6 +93,13 @@ export default function AdminDashboardScreen() {
 
   const maxOf = (arr: number[] = []) => Math.max(1, ...arr);
 
+  if (!isAdmin) {
+    return (
+      <View className="flex-1 items-center justify-center bg-slate-50">
+        <ActivityIndicator size="large" color="#2a85ff" />
+      </View>
+    );
+  }
   return (
     <ScrollView
       className="flex-1 bg-slate-50 p-4"

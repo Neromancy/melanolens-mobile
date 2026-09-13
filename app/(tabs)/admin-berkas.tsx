@@ -10,6 +10,7 @@ import {
   Modal,
   ScrollView,
 } from 'react-native';
+import { useRouter } from 'expo-router';
 import { API_BASE_URL } from '../../src/constants/config';
 import { useAuthStore } from '../../src/store/useAuthStore';
 import { Ionicons } from '@expo/vector-icons';
@@ -26,6 +27,13 @@ interface AdminRecord {
 
 export default function AdminBerkasScreen() {
   const token = useAuthStore((s) => s.token);
+  const userRole = useAuthStore((s) => s.user?.role);
+  const isAdmin = userRole === 'admin';
+  const router = useRouter();
+  // Guard: only admins may render this screen. Non-admins bounce to Home.
+  useEffect(() => {
+    if (!isAdmin) router.replace('/(tabs)');
+  }, [isAdmin, router]);
   const [records, setRecords] = useState<AdminRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -48,11 +56,19 @@ export default function AdminBerkasScreen() {
   }, [token]);
 
   useEffect(() => {
-    fetchRecords();
-  }, [fetchRecords]);
+    if (isAdmin) fetchRecords();
+    else setLoading(false);
+  }, [isAdmin, fetchRecords]);
 
   const isMalignant = (r: string) => /melanoma|ganas/i.test(r || '');
 
+  if (!isAdmin) {
+    return (
+      <View className="flex-1 items-center justify-center bg-slate-50">
+        <ActivityIndicator size="large" color="#2a85ff" />
+      </View>
+    );
+  }
   return (
     <View className="flex-1 bg-slate-50 p-4">
       <Text className="text-lg font-black text-slate-800 mb-1">Berkas Medis</Text>
