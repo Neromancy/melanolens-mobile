@@ -6,13 +6,16 @@ import { useAuthStore } from '../../src/store/useAuthStore';
 // expo-router's <Tabs> auto-renders a tab for EVERY route file in (tabs)/ and,
 // on Android, ignores 'options.hidden' — so admin screens leaked into the
 // patient tab bar. Fix: use <Stack> (no built-in tab bar) and render our own
-// bottom navigation that only lists the current role's screens. All screen
-// files still exist as routes; the bar just never links the wrong ones.
+// bottom navigation that only lists the current role's screens. Screen files
+// all still exist as guarded routes; the bar just never links the wrong ones.
+//
+// NOTE: index.tsx is the GROUP ROOT -> its nav route is '/(tabs)', NOT
+// '/(tabs)/index' (there is no such segment, pushing it = unmatched route).
 
 type NavItem = { key: string; label: string; icon: any; route: string };
 
 const ADMIN_BAR: NavItem[] = [
-  { key: 'index', label: 'Home', icon: 'home', route: '/(tabs)/index' },
+  { key: 'index', label: 'Home', icon: 'home', route: '/(tabs)' },
   { key: 'scan', label: 'Scan', icon: 'scan', route: '/(tabs)/scan' },
   { key: 'admin-dashboard', label: 'Dashboard', icon: 'bar-chart', route: '/(tabs)/admin-dashboard' },
   { key: 'admin-berkas', label: 'Berkas', icon: 'file-tray', route: '/(tabs)/admin-berkas' },
@@ -20,7 +23,7 @@ const ADMIN_BAR: NavItem[] = [
 ];
 
 const PATIENT_BAR: NavItem[] = [
-  { key: 'index', label: 'Home', icon: 'home', route: '/(tabs)/index' },
+  { key: 'index', label: 'Home', icon: 'home', route: '/(tabs)' },
   { key: 'scan', label: 'Scan', icon: 'scan', route: '/(tabs)/scan' },
   { key: 'history', label: 'Riwayat', icon: 'time', route: '/(tabs)/history' },
   { key: 'profile', label: 'Profile', icon: 'person', route: '/(tabs)/profile' },
@@ -32,18 +35,32 @@ export default function TabsLayout() {
   const bar = isAdmin ? ADMIN_BAR : PATIENT_BAR;
   const router = useRouter();
   const pathname = usePathname();
-  const currentKey = pathname.split('/').filter(Boolean).pop();
+  // current screen name; index renders as the group root '/(tabs)'
+  const segs = pathname.split('/').filter(Boolean);
+  const lastSeg = segs[segs.length - 1];
+  const currentKey = pathname.startsWith('/(tabs)') && (lastSeg === undefined || lastSeg === 'tabs')
+    ? 'index'
+    : lastSeg;
 
   return (
     <View className="flex-1 bg-slate-50">
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
-        <Stack.Screen name="scan" />
-        <Stack.Screen name="admin-dashboard" />
-        <Stack.Screen name="admin-berkas" />
-        <Stack.Screen name="history" />
-        <Stack.Screen name="profile" />
-      </Stack>
+          <View className="flex-1">
+            <Stack
+              screenOptions={{
+                headerShown: true,
+                headerTitleAlign: 'center',
+                headerStyle: { backgroundColor: '#ffffff' },
+                headerTitleStyle: { fontWeight: 'bold', fontSize: 16, color: '#1e293b' },
+              }}
+            >
+              <Stack.Screen name="index" />
+              <Stack.Screen name="scan" />
+              <Stack.Screen name="admin-dashboard" />
+              <Stack.Screen name="admin-berkas" />
+              <Stack.Screen name="history" />
+              <Stack.Screen name="profile" />
+            </Stack>
+          </View>
 
       {/* role-filtered bottom navigation */}
       <View
