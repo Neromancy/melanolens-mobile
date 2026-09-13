@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
+  Image,
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
@@ -62,12 +63,13 @@ export default function SignInScreen() {
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }} className="px-6">
         <View className="items-center mb-8">
-          <View className="w-16 h-16 rounded-2xl bg-primary/10 items-center justify-center mb-3">
-            <Ionicons name="medical" size={36} color="#2a85ff" />
-          </View>
-          <Text className="text-2xl font-black text-slate-800">MelanoLens</Text>
-          <Text className="text-xs text-slate-400 mt-1">Deteksi Dini Melanoma Berbasis AI</Text>
-        </View>
+                  <Image
+                    source={require('../../assets/brand/logo-dark-full.png')}
+                    style={{ width: 210, height: 30 }}
+                    resizeMode="contain"
+                  />
+                  <Text className="text-xs text-slate-400 mt-2">Deteksi Dini Melanoma Berbasis AI</Text>
+                </View>
 
         <View className="space-y-4">
           <View>

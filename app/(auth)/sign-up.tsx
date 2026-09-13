@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
+  Image,
   TextInput,
   TouchableOpacity,
   ScrollView,
@@ -86,7 +87,15 @@ export default function SignUpScreen() {
         <Ionicons name="arrow-back" size={24} color="#1e293b" />
       </TouchableOpacity>
 
-      <Text className="text-2xl font-black text-slate-800">Daftar Akun Baru</Text>
+      <View className="items-center mb-5">
+          <Image
+            source={require('../../assets/brand/logo-dark-full.png')}
+            style={{ width: 210, height: 30 }}
+            resizeMode="contain"
+          />
+        </View>
+
+        <Text className="text-lg font-black text-slate-800">Daftar Akun Baru</Text>
       <Text className="text-xs text-slate-400 mt-1 mb-6">
         Langkah {step} dari 2: {step === 1 ? 'Informasi Demografis' : 'Kredensial Keamanan'}
       </Text>
