@@ -44,6 +44,13 @@
           "cameraPermission": "MelanoLens memerlukan izin kamera untuk mengambil foto lesi kulit secara langsung."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "0d660436-926b-470a-a124-a1cd3616c96b"
+      }
+    },
+    "owner": "neromancy"
   }
 }
