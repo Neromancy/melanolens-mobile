@@ -1,6 +1,6 @@
 import { Stack, usePathname, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { useAuthStore } from '../../src/store/useAuthStore';
 
 // expo-router's <Tabs> auto-renders a tab for EVERY route file in (tabs)/ and,
@@ -44,13 +44,22 @@ export default function TabsLayout() {
 
   return (
     <View className="flex-1 bg-slate-50">
+          {/* top brand bar (replaces the nav header/back arrow) */}
+          <View
+            className="w-full items-center justify-center"
+            style={{ height: 56, backgroundColor: '#ffffff' }}
+          >
+            <Image
+              source={require('../../assets/brand/logo-dark-full.png')}
+              style={{ width: 170, height: 25 }}
+              resizeMode="contain"
+            />
+          </View>
+
           <View className="flex-1">
             <Stack
               screenOptions={{
-                headerShown: true,
-                headerTitleAlign: 'center',
-                headerStyle: { backgroundColor: '#ffffff' },
-                headerTitleStyle: { fontWeight: 'bold', fontSize: 16, color: '#1e293b' },
+                headerShown: false,
               }}
             >
               <Stack.Screen name="index" />
