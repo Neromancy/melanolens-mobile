@@ -1,17 +1,13 @@
-import { Platform } from 'react-native';
+// MelanoLens hosted FastAPI backend (Azure Web Apps, MobileNetV2-only).
+// Swap this single value to switch the API target.
+const ENV_BACKEND_URL =
+  'https://melanolens-be-b9hwazeycfayg9ee.indonesiacentral-01.azurewebsites.net';
 
-// Ganti IP sesuai jaringan Wi-Fi host untuk HP fisik (misal: 192.168.1.10).
-// IP ini dipakai untuk SEMUA platform di dev karena:
-//  - HP fisik  : harus pakai IP LAN host yang sama-segmen dengan HP.
-//  - Emulator  : Android emulator menjangkau IP LAN host via NAT,
-//                 sehingga IP ini juga bekerja (10.0.2.2 hanya alias khusus
-//                 emulator, tidak valid di HP fisik).
-//  - Web/Chrome: browser di mesin yang sama menjangkau IP ini juga.
-// PENTING: request localhost HTTP harus diizinkan (lihat app.json ->
-// expo-build-properties usesCleartextTraffic). Expo Go sudah mengizinkan,
-// build APK standalone butuh pengaturan tersebut.
-const DEV_MACHINE_IP = '192.168.1.13';
+// Dev fallback: local backend on the dev machine's LAN IP (192.168.1.13).
+// Set to true to run against a local uvicorn on :8000.
+const USE_LOCAL_BACKEND = false;
+const LOCAL_MACHINE_IP = '192.168.1.13';
 
-export const API_BASE_URL = __DEV__
-  ? `http://${DEV_MACHINE_IP}:8000`
-  : 'https://api.melanolens.yourdomain.com';
+export const API_BASE_URL = USE_LOCAL_BACKEND
+  ? `http://${LOCAL_MACHINE_IP}:8000`
+  : ENV_BACKEND_URL;
