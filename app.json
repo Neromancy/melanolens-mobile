@@ -3,6 +3,7 @@
     "name": "melanolens-mobile",
     "slug": "melanolens-mobile",
     "version": "1.0.0",
+    "scheme": "melanolens",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -20,6 +21,25 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ],
+      "expo-secure-store",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "MelanoLens memerlukan akses galeri foto untuk analisis lesi kulit.",
+          "cameraPermission": "MelanoLens memerlukan izin kamera untuk mengambil foto lesi kulit secara langsung."
+        }
+      ]
+    ]
   }
 }
