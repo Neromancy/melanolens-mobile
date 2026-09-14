@@ -89,7 +89,7 @@ export default function SignUpScreen() {
 
       <View className="items-center mb-5">
           <Image
-            source={require('../../assets/brand/logo-dark-full.png')}
+            source={require('../../assets/brand/logo-light-full.png')}
             style={{ width: 210, height: 30 }}
             resizeMode="contain"
           />
@@ -106,7 +106,7 @@ export default function SignUpScreen() {
             <Text className="text-xs font-semibold text-slate-600 mb-1">Nama Lengkap</Text>
             <TextInput
               className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-xs text-slate-800"
-              placeholder="Masukkan nama lengkap Anda"
+              placeholder="Masukkan nama lengkap Anda" placeholderTextColor="#94a3b8"
               value={nama}
               onChangeText={setNama}
             />
@@ -116,7 +116,7 @@ export default function SignUpScreen() {
             <Text className="text-xs font-semibold text-slate-600 mb-1">Tanggal Lahir (YYYY-MM-DD)</Text>
             <TextInput
               className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-xs text-slate-800"
-              placeholder="Contoh: 1999-12-31"
+              placeholder="Contoh: 1999-12-31" placeholderTextColor="#94a3b8"
               value={tanggalLahir}
               onChangeText={setTanggalLahir}
             />
@@ -164,7 +164,7 @@ export default function SignUpScreen() {
             <Text className="text-xs font-semibold text-slate-600 mb-1">Pekerjaan</Text>
             <TextInput
               className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-xs text-slate-800"
-              placeholder="Contoh: Pegawai, Mahasiswa, Guru"
+              placeholder="Contoh: Pegawai, Mahasiswa, Guru" placeholderTextColor="#94a3b8"
               value={pekerjaan}
               onChangeText={setPekerjaan}
             />
@@ -183,7 +183,7 @@ export default function SignUpScreen() {
             <Text className="text-xs font-semibold text-slate-600 mb-1">Email</Text>
             <TextInput
               className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-xs text-slate-800"
-              placeholder="nama@email.com"
+              placeholder="nama@email.com" placeholderTextColor="#94a3b8"
               keyboardType="email-address"
               autoCapitalize="none"
               value={email}
@@ -195,7 +195,7 @@ export default function SignUpScreen() {
             <Text className="text-xs font-semibold text-slate-600 mb-1">Kata Sandi</Text>
             <TextInput
               className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-xs text-slate-800"
-              placeholder="Minimal 6 karakter"
+              placeholder="Minimal 6 karakter" placeholderTextColor="#94a3b8"
               secureTextEntry
               value={password}
               onChangeText={setPassword}
@@ -206,7 +206,7 @@ export default function SignUpScreen() {
             <Text className="text-xs font-semibold text-slate-600 mb-1">Konfirmasi Kata Sandi</Text>
             <TextInput
               className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-xs text-slate-800"
-              placeholder="Ulangi kata sandi"
+              placeholder="Ulangi kata sandi" placeholderTextColor="#94a3b8"
               secureTextEntry
               value={confirmPassword}
               onChangeText={setConfirmPassword}

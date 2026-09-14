@@ -76,7 +76,7 @@ export default function SignInScreen() {
             <Text className="text-xs font-semibold text-slate-600 mb-1">Email</Text>
             <TextInput
               className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-sm text-slate-800"
-              placeholder="nama@email.com"
+              placeholder="nama@email.com" placeholderTextColor="#94a3b8"
               autoCapitalize="none"
               keyboardType="email-address"
               value={email}
@@ -89,7 +89,7 @@ export default function SignInScreen() {
             <View className="flex-row items-center bg-slate-50 border border-slate-200 rounded-xl px-4 h-12">
               <TextInput
                 className="flex-1 text-sm text-slate-800"
-                placeholder="Masukkan kata sandi"
+                placeholder="Masukkan kata sandi" placeholderTextColor="#94a3b8"
                 secureTextEntry={!showPassword}
                 value={password}
                 onChangeText={setPassword}

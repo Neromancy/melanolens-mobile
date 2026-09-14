@@ -23,11 +23,13 @@ export default function ScanScreen() {
 
   const pickImage = async (fromCamera: boolean) => {
     const options: ImagePicker.ImagePickerOptions = {
-      mediaTypes: ['images'],
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 0.8,
-    };
+          mediaTypes: ['images'],
+          // Send the ORIGINAL frame, not a client-side 1:1 crop.
+          // allowsEditing + aspect [1,1] cropped the lesion square and deleted
+          // surrounding skin/context, so mobile predicted differently than web
+          // against the same backend model. Match web: upload the untouched image.
+          quality: 0.8,
+        };
 
     const res = fromCamera
       ? await ImagePicker.launchCameraAsync(options)

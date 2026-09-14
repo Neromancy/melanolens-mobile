@@ -1,7 +1,8 @@
-import { Stack, usePathname, useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
-import { useAuthStore } from '../../src/store/useAuthStore';
+import { Stack, usePathname, useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { View, Text, Image, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useAuthStore } from "../../src/store/useAuthStore";
 
 // expo-router's <Tabs> auto-renders a tab for EVERY route file in (tabs)/ and,
 // on Android, ignores 'options.hidden' — so admin screens leaked into the
@@ -15,61 +16,83 @@ import { useAuthStore } from '../../src/store/useAuthStore';
 type NavItem = { key: string; label: string; icon: any; route: string };
 
 const ADMIN_BAR: NavItem[] = [
-  { key: 'index', label: 'Home', icon: 'home', route: '/(tabs)' },
-  { key: 'scan', label: 'Scan', icon: 'scan', route: '/(tabs)/scan' },
-  { key: 'admin-dashboard', label: 'Dashboard', icon: 'bar-chart', route: '/(tabs)/admin-dashboard' },
-  { key: 'admin-berkas', label: 'Berkas', icon: 'file-tray', route: '/(tabs)/admin-berkas' },
-  { key: 'profile', label: 'Profile', icon: 'person', route: '/(tabs)/profile' },
+  { key: "index", label: "Home", icon: "home", route: "/(tabs)" },
+  { key: "scan", label: "Scan", icon: "scan", route: "/(tabs)/scan" },
+  {
+    key: "admin-dashboard",
+    label: "Dashboard",
+    icon: "bar-chart",
+    route: "/(tabs)/admin-dashboard",
+  },
+  {
+    key: "admin-berkas",
+    label: "Berkas",
+    icon: "file-tray",
+    route: "/(tabs)/admin-berkas",
+  },
+  {
+    key: "profile",
+    label: "Profile",
+    icon: "person",
+    route: "/(tabs)/profile",
+  },
 ];
 
 const PATIENT_BAR: NavItem[] = [
-  { key: 'index', label: 'Home', icon: 'home', route: '/(tabs)' },
-  { key: 'scan', label: 'Scan', icon: 'scan', route: '/(tabs)/scan' },
-  { key: 'history', label: 'Riwayat', icon: 'time', route: '/(tabs)/history' },
-  { key: 'profile', label: 'Profile', icon: 'person', route: '/(tabs)/profile' },
+  { key: "index", label: "Home", icon: "home", route: "/(tabs)" },
+  { key: "scan", label: "Scan", icon: "scan", route: "/(tabs)/scan" },
+  { key: "history", label: "Riwayat", icon: "time", route: "/(tabs)/history" },
+  {
+    key: "profile",
+    label: "Profile",
+    icon: "person",
+    route: "/(tabs)/profile",
+  },
 ];
 
 export default function TabsLayout() {
   const role = useAuthStore((s) => s.user?.role);
-  const isAdmin = role === 'admin';
+  const isAdmin = role === "admin";
   const bar = isAdmin ? ADMIN_BAR : PATIENT_BAR;
   const router = useRouter();
   const pathname = usePathname();
   // current screen name; index renders as the group root '/(tabs)'
-  const segs = pathname.split('/').filter(Boolean);
+  const segs = pathname.split("/").filter(Boolean);
   const lastSeg = segs[segs.length - 1];
-  const currentKey = pathname.startsWith('/(tabs)') && (lastSeg === undefined || lastSeg === 'tabs')
-    ? 'index'
-    : lastSeg;
+  const currentKey =
+    pathname.startsWith("/(tabs)") &&
+    (lastSeg === undefined || lastSeg === "tabs")
+      ? "index"
+      : lastSeg;
 
   return (
-    <View className="flex-1 bg-slate-50">
-          {/* top brand bar (replaces the nav header/back arrow) */}
-          <View
-            className="w-full items-center justify-center"
-            style={{ height: 56, backgroundColor: '#ffffff' }}
-          >
-            <Image
-              source={require('../../assets/brand/logo-dark-full.png')}
-              style={{ width: 170, height: 25 }}
-              resizeMode="contain"
-            />
-          </View>
+    <SafeAreaView className="flex-1 bg-slate-50" style={{ flex: 1 }}>
+      {/* top brand bar (replaces the nav header/back arrow) */}
+      <View
+        className="w-full items-center justify-center"
+        style={{ height: 56, backgroundColor: "#ffffff" }}
+      >
+        <Image
+          source={require("../../assets/brand/logo-light-full.png")}
+          style={{ width: 170, height: 25 }}
+          resizeMode="contain"
+        />
+      </View>
 
-          <View className="flex-1">
-            <Stack
-              screenOptions={{
-                headerShown: false,
-              }}
-            >
-              <Stack.Screen name="index" />
-              <Stack.Screen name="scan" />
-              <Stack.Screen name="admin-dashboard" />
-              <Stack.Screen name="admin-berkas" />
-              <Stack.Screen name="history" />
-              <Stack.Screen name="profile" />
-            </Stack>
-          </View>
+      <View className="flex-1">
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="index" />
+          <Stack.Screen name="scan" />
+          <Stack.Screen name="admin-dashboard" />
+          <Stack.Screen name="admin-berkas" />
+          <Stack.Screen name="history" />
+          <Stack.Screen name="profile" />
+        </Stack>
+      </View>
 
       {/* role-filtered bottom navigation */}
       <View
@@ -84,12 +107,20 @@ export default function TabsLayout() {
               onPress={() => router.push(item.route)}
               className="flex-1 items-center justify-center"
             >
-              <Ionicons name={item.icon} size={22} color={on ? '#2a85ff' : '#94a3b8'} />
-              <Text className={`text-[9px] mt-0.5 ${on ? 'text-primary' : 'text-slate-400'}`}>{item.label}</Text>
+              <Ionicons
+                name={item.icon}
+                size={22}
+                color={on ? "#2a85ff" : "#94a3b8"}
+              />
+              <Text
+                className={`text-[9px] mt-0.5 ${on ? "text-primary" : "text-slate-400"}`}
+              >
+                {item.label}
+              </Text>
             </TouchableOpacity>
           );
         })}
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

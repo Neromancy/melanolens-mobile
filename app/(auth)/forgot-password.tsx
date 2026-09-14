@@ -79,7 +79,7 @@ export default function ForgotPasswordScreen() {
             <Text className="text-xs font-semibold text-slate-600 mb-1">Email</Text>
             <TextInput
               className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-sm text-slate-800"
-              placeholder="nama@email.com"
+              placeholder="nama@email.com" placeholderTextColor="#94a3b8"
               autoCapitalize="none"
               keyboardType="email-address"
               value={email}
@@ -91,7 +91,7 @@ export default function ForgotPasswordScreen() {
             <Text className="text-xs font-semibold text-slate-600 mb-1">Kata Sandi Baru</Text>
             <TextInput
               className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-sm text-slate-800"
-              placeholder="Minimal 6 karakter"
+              placeholder="Minimal 6 karakter" placeholderTextColor="#94a3b8"
               secureTextEntry
               value={password}
               onChangeText={setPassword}
@@ -102,7 +102,7 @@ export default function ForgotPasswordScreen() {
             <Text className="text-xs font-semibold text-slate-600 mb-1">Konfirmasi Kata Sandi</Text>
             <TextInput
               className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-sm text-slate-800"
-              placeholder="Ulangi kata sandi baru"
+              placeholder="Ulangi kata sandi baru" placeholderTextColor="#94a3b8"
               secureTextEntry
               value={confirmPassword}
               onChangeText={setConfirmPassword}
