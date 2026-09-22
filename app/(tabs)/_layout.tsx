@@ -4,15 +4,6 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuthStore } from "../../src/store/useAuthStore";
 
-// expo-router's <Tabs> auto-renders a tab for EVERY route file in (tabs)/ and,
-// on Android, ignores 'options.hidden' — so admin screens leaked into the
-// patient tab bar. Fix: use <Stack> (no built-in tab bar) and render our own
-// bottom navigation that only lists the current role's screens. Screen files
-// all still exist as guarded routes; the bar just never links the wrong ones.
-//
-// NOTE: index.tsx is the GROUP ROOT -> its nav route is '/(tabs)', NOT
-// '/(tabs)/index' (there is no such segment, pushing it = unmatched route).
-
 type NavItem = { key: string; label: string; icon: any; route: string };
 
 const ADMIN_BAR: NavItem[] = [
@@ -56,7 +47,6 @@ export default function TabsLayout() {
   const bar = isAdmin ? ADMIN_BAR : PATIENT_BAR;
   const router = useRouter();
   const pathname = usePathname();
-  // current screen name; index renders as the group root '/(tabs)'
   const segs = pathname.split("/").filter(Boolean);
   const lastSeg = segs[segs.length - 1];
   const currentKey =
@@ -67,7 +57,6 @@ export default function TabsLayout() {
 
   return (
     <SafeAreaView className="flex-1 bg-slate-50" style={{ flex: 1 }}>
-      {/* top brand bar (replaces the nav header/back arrow) */}
       <View
         className="w-full items-center justify-center"
         style={{ height: 56, backgroundColor: "#ffffff" }}
@@ -94,7 +83,6 @@ export default function TabsLayout() {
         </Stack>
       </View>
 
-      {/* role-filtered bottom navigation */}
       <View
         className="flex-row items-center justify-center bg-white border-t border-slate-100"
         style={{ height: 74, paddingTop: 6, paddingBottom: 12 }}
