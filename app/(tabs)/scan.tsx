@@ -173,11 +173,11 @@ export default function ScanScreen() {
             </Text>
           </View>
 
-          {/* Attention Heatmap (XAI) */}
+          {/* Gate Map XAI - lesion localisation */}
           {result.heatmap_base64 && (
             <View>
               <Text className="text-xs font-bold text-slate-800 mb-1.5">
-                Visualisasi Peta Atensi AI (Heatmap)
+                Localisasi Lesi (Gate Map)
               </Text>
               <Image
                   source={{
